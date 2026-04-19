@@ -1,0 +1,59 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #F0F4FF;
+  --color-brand-100: #E0E9FF;
+  --color-brand-200: #C2D4FF;
+  --color-brand-500: #3B6FE8;
+  --color-brand-600: #2F5BD0;
+  --color-brand-700: #1E3A5F;
+  --color-brand-800: #162D4A;
+  --color-brand-900: #0F1F3D;
+  --color-surface: #F8FAFF;
+  --color-card: #ffffff;
+  --color-accent-green: #16A34A;
+  --color-accent-red: #DC2626;
+  --color-accent-amber: #D97706;
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+/* ---- Base ---- */
+body {
+  margin: 0;
+  background: var(--color-surface);
+  color: #334155;
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---- Scrollbar ---- */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* ---- Skeleton animation ---- */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+/* ---- Global focus ring ---- */
+*:focus-visible {
+  outline: 2px solid var(--color-brand-500);
+  outline-offset: 2px;
+}
+
+/* ---- Gauge animation ---- */
+@keyframes gauge-fill {
+  from { stroke-dashoffset: 251.2; }
+}

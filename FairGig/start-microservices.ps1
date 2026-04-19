@@ -1,0 +1,6 @@
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd d:\Softec\FairGig; npm run dev:auth"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd d:\Softec\FairGig; npm run dev:grievance"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd d:\Softec\FairGig; npm run dev:earnings"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd d:\Softec\FairGig; npm run dev:anomaly"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd d:\Softec\FairGig; npm run dev:analytics"
+Start-Process powershell -ArgumentList "-NoExit", "-Command", "cd d:\Softec\FairGig; npm run dev:certificate"

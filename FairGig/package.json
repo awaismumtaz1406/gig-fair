@@ -1,0 +1,17 @@
+{
+  "name": "fairgig",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "install:all": "cd services/auth-service && npm i && cd ../grievance-service && npm i && cd ../../frontend && npm i",
+    "dev:auth": "cd services/auth-service && npm run dev",
+    "dev:grievance": "cd services/grievance-service && npm run dev",
+    "dev:earnings": "cd services/earnings-service && uvicorn main:app --reload --port 8001",
+    "dev:anomaly": "cd services/anomaly-service && uvicorn main:app --reload --port 8002",
+    "dev:analytics": "cd services/analytics-service && uvicorn main:app --reload --port 8003",
+    "dev:certificate": "cd services/certificate-service && uvicorn main:app --reload --port 8004",
+    "dev:frontend": "cd frontend && npm run dev",
+    "seed": "cd seed && python seed.py"
+  }
+}
