@@ -8,8 +8,10 @@ class EarningCreate(BaseModel):
     workerId: str
     platform: Literal["Uber", "Foodpanda", "Fiverr", "Careem", "Daraz"]
     amount: float = Field(gt=0)
+    grossEarnings: float = Field(gt=0)
+    deductions: float = Field(ge=0)
     hoursWorked: float = Field(gt=0, le=24)
-    date: datetime
+    date: str
     city: str
     screenshotUrl: Optional[str] = None
 

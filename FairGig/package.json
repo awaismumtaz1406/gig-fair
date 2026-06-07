@@ -13,5 +13,12 @@
     "dev:certificate": "cd services/certificate-service && uvicorn main:app --reload --port 8004",
     "dev:frontend": "cd frontend && npm run dev",
     "seed": "cd seed && python seed.py"
+  },
+  "dependencies": {
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  },
+  "devDependencies": {
+    "vite": "^8.0.8"
   }
 }

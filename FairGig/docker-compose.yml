@@ -1,4 +1,5 @@
 version: "3.9"
+
 services:
   mongodb:
     image: mongo:7
@@ -6,6 +7,20 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
+
+  backend:
+    build:  ./services/certificate-service
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mongodb
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
 
 volumes:
   mongo_data:

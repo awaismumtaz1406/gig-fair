@@ -6,7 +6,7 @@ from typing import Any
 
 import httpx
 from bson import ObjectId
-from fastapi import FastAPI, File, Query, UploadFile
+from fastapi import FastAPI, File, Form, Query, UploadFile
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
@@ -53,12 +53,40 @@ async def general_exception_handler(_, exc: Exception):
 
 
 @app.post("/earnings")
-async def create_earning(payload: EarningCreate):
-    week_number = payload.date.isocalendar().week
-    record = payload.model_dump()
-    record.update(
-        {"weekNumber": week_number, "anomalyScore": 0, "anomalyMessage": "", "isVerified": False, "verifiedBy": None, "createdAt": datetime.utcnow()}
-    )
+async def create_earning(
+    workerId: str = Form(...),
+    platform: str = Form(...),
+    city: str = Form(...),
+    date: str = Form(...),
+    amount: float = Form(...),
+    grossEarnings: float = Form(...),
+    deductions: float = Form(...),
+    hoursWorked: float = Form(...),
+    screenshot: UploadFile = File(None),
+):
+    date_obj = datetime.fromisoformat(date)
+    week_number = date_obj.isocalendar().week
+
+    record = {
+        "workerId": workerId,
+        "platform": platform,
+        "city": city,
+        "date": date_obj,
+        "amount": float(amount),
+        "grossEarnings": float(grossEarnings),
+        "deductions": float(deductions),
+        "hoursWorked": float(hoursWorked),
+        "weekNumber": week_number,
+        "anomalyScore": 0,
+        "anomalyMessage": "",
+        "isVerified": False,
+        "verifiedBy": None,
+        "createdAt": datetime.utcnow(),
+    }
+
+    if screenshot:
+        record["screenshotUrl"] = screenshot.filename
+
     result = await earnings_collection.insert_one(record)
     saved = await earnings_collection.find_one({"_id": result.inserted_id})
 
@@ -67,11 +95,11 @@ async def create_earning(payload: EarningCreate):
             response = await client.post(
                 f"{ANOMALY_URL}/detect",
                 json={
-                    "workerId": payload.workerId,
-                    "amount": payload.amount,
-                    "hoursWorked": payload.hoursWorked,
-                    "date": payload.date.isoformat(),
-                    "platform": payload.platform,
+                    "workerId": workerId,
+                    "amount": float(amount),
+                    "hoursWorked": float(hoursWorked),
+                    "date": date,
+                    "platform": platform,
                 },
             )
             anomaly_data = response.json().get("data", {})
