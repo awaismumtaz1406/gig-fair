@@ -78,15 +78,21 @@ export default function CertificatePage() {
   const handleDownload = () => {
     const el = certRef.current;
     if (!el) return;
-    import("html2canvas").then(({ default: html2canvas }) => {
-      html2canvas(el, { scale: 2, backgroundColor: "#ffffff", useCORS: true }).then(canvas => {
+    import("html2canvas-pro").then(({ default: html2canvas }) => {
+      html2canvas(el, { scale: 2, backgroundColor: "#ffffff", useCORS: true, logging: false }).then(canvas => {
         const link = document.createElement("a");
         link.download = `FairGig-Certificate-${certificateId}.png`;
         link.href = canvas.toDataURL("image/png");
         link.click();
         toast.success("Certificate downloaded!");
+      }).catch(err => {
+        console.error("Certificate generation error:", err);
+        toast.error("Download failed — try screenshot");
       });
-    }).catch(() => toast.error("Download failed — try screenshot"));
+    }).catch(err => {
+      console.error("html2canvas-pro load error:", err);
+      toast.error("Download failed — try screenshot");
+    });
   };
 
   const qrData = `${window.location.origin}/verify/${certificateId || "demo"}`;
@@ -198,7 +204,7 @@ export default function CertificatePage() {
                 {/* QR Code */}
                 <div className="text-center">
                   <div className="w-24 h-24 bg-white rounded-lg border-2 border-slate-200 flex items-center justify-center p-1.5">
-                    <img src={qrUrl} alt="QR Code" className="w-full h-full" />
+                    <img src={qrUrl} alt="QR Code" className="w-full h-full" crossOrigin="anonymous" />
                   </div>
                   <p className="text-[9px] font-medium text-slate-400 mt-2 uppercase tracking-wider">Scan to Verify</p>
                   <p className="text-[8px] text-slate-400 mt-0.5">/verify/{certificateId}</p>
